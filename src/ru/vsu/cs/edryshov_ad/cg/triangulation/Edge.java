@@ -5,8 +5,13 @@ public class Edge implements Comparable<Edge> {
     private final Vertex b;
 
     public Edge(Vertex a, Vertex b) {
-        this.a = a;
-        this.b = b;
+        if (a.compareTo(b) > 0) {
+            this.a = a;
+            this.b = b;
+        } else {
+            this.a = b;
+            this.b = a;
+        }
     }
 
     public Vertex getA() {
@@ -27,5 +32,10 @@ public class Edge implements Comparable<Edge> {
         }
 
         return temp;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s", a, b);
     }
 }

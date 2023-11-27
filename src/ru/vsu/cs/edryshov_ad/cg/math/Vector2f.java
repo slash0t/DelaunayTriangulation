@@ -22,4 +22,9 @@ public class Vector2f {
         float difY = y - vector.getY();
         return (float) Math.sqrt(difX * difX + difY * difY);
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%f, %f)", x, y);
+    }
 }

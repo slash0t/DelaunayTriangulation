@@ -34,9 +34,11 @@ public class Vertex extends Vector2f implements Comparable<Vertex> {
         float difX = getX() - v.getX();
 
         if (Math.abs(difX) < MathConstants.EPSILON) {
-            return (int) Math.ceil(getY() - v.getY());
+            float difY = getY() - v.getY();
+
+            return difY > 0 ? 1 : -1;
         }
 
-        return (int) Math.ceil(difX);
+        return difX > 0 ? 1 : -1;
     }
 }

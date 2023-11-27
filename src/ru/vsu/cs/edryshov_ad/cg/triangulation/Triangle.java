@@ -21,7 +21,7 @@ public class Triangle implements Comparable<Triangle>{
 
         float denominator = 2 * (
                 a.getX() * (b.getY() - c.getY()) +
-                b.getX() * (c.getY() - a.getX()) +
+                b.getX() * (c.getY() - a.getY()) +
                 c.getX() * (a.getY() - b.getY())
         );
         float distA = a.getX() * a.getX() + a.getY() * a.getY();
@@ -90,10 +90,6 @@ public class Triangle implements Comparable<Triangle>{
 
     @Override
     public String toString() {
-        return String.format("(%f, %f), (%f, %f) (%f, %f)",
-                getA().getX(), getA().getY(),
-                getB().getX(), getB().getY(),
-                getC().getX(), getC().getY()
-        );
+        return String.format("%s, %s, %s", a, b, c);
     }
 }

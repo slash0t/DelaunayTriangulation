@@ -44,34 +44,23 @@ public class DelaunayTriangulation {
         triangulation.add(findSuperTriangle(points));
 
         for (Vertex point : points) {
-//            Set<Triangle> badTriangles = new TreeSet<>();
-            TreeMap<Edge, Integer> badEdgesCount = new TreeMap<>();
-//            TreeSet<Edge> polygonalHole = new TreeSet<>();
-//            TreeSet<Edge> badEdges = new TreeSet<>();
+            TreeSet<Edge> polygonalHole = new TreeSet<>();
+            TreeSet<Edge> badEdges = new TreeSet<>();
 
             Iterator<Triangle> triangleIterator = triangulation.iterator();
             while (triangleIterator.hasNext()) {
                 Triangle triangle = triangleIterator.next();
 
                 if (triangle.pointInsideCircumcircle(point)) {
-//                    badTriangles.add(triangle);
                     triangleIterator.remove();
 
                     for (Edge edge : triangle.getEdges()) {
-//                        if (badEdges.add(edge)) {
-//                            polygonalHole.add(edge);
-//                        } else {
-//                            polygonalHole.remove(edge);
-//                        }
-                        badEdgesCount.put(edge, badEdgesCount.getOrDefault(edge, 0) + 1);
+                        if (badEdges.add(edge)) {
+                            polygonalHole.add(edge);
+                        } else {
+                            polygonalHole.remove(edge);
+                        }
                     }
-                }
-            }
-
-            List<Edge> polygonalHole = new LinkedList<>();
-            for (Map.Entry<Edge, Integer> entry : badEdgesCount.entrySet()) {
-                if (entry.getValue() == 1) {
-                    polygonalHole.add(entry.getKey());
                 }
             }
 
