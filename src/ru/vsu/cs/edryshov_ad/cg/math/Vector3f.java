@@ -28,4 +28,20 @@ public class Vector3f {
                 Math.abs(y - other.y) < MathConstants.EPSILON &&
                 Math.abs(z - other.z) < MathConstants.EPSILON;
     }
+
+    public void normalize() {
+        float dist = (float) Math.sqrt(x * x + y * y + z * z);
+
+        x /= dist;
+        y /= dist;
+        z /= dist;
+    }
+
+    public Vector3f cross(Vector3f vector) {
+        return new Vector3f(
+          y * vector.getZ() - z * vector.getY(),
+          x * vector.getZ() - z * vector.getX(),
+          x * vector.getY() - y * vector.getX()
+        );
+    }
 }
