@@ -40,8 +40,16 @@ public class Vector3f {
     public Vector3f cross(Vector3f vector) {
         return new Vector3f(
           y * vector.getZ() - z * vector.getY(),
-          x * vector.getZ() - z * vector.getX(),
+          z * vector.getX() - x * vector.getZ(),
           x * vector.getY() - y * vector.getX()
+        );
+    }
+
+    public Vector3f minus(Vector3f vector) {
+        return new Vector3f(
+                getX() - vector.getX(),
+                getY() - vector.getY(),
+                getZ() - vector.getZ()
         );
     }
 }

@@ -1,12 +1,13 @@
 package ru.vsu.cs.edryshov_ad.cg.model;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 public class Polygon {
 
-    private ArrayList<Integer> vertexIndices;
-    private ArrayList<Integer> textureVertexIndices;
-    private ArrayList<Integer> normalIndices;
+    private final ArrayList<Integer> vertexIndices;
+    private final ArrayList<Integer> textureVertexIndices;
+    private final ArrayList<Integer> normalIndices;
 
     public Polygon() {
         vertexIndices = new ArrayList<>();
@@ -14,18 +15,23 @@ public class Polygon {
         normalIndices = new ArrayList<>();
     }
 
-    public void setVertexIndices(ArrayList<Integer> vertexIndices) {
-        assert vertexIndices.size() >= 3;
+    public Polygon(Polygon polygon) {
+        int size = polygon.getSize();
+
+        vertexIndices = new ArrayList<>(size);
+        textureVertexIndices = new ArrayList<>(size);
+        normalIndices = new ArrayList<>(size);
+
+        for (int i = 0; i < size; i++) {
+            vertexIndices.add(i, polygon.getVertexIndex(i));
+            textureVertexIndices.add(i, polygon.getTextureVertexIndex(i));
+            normalIndices.add(i, polygon.getNormalIndex(i));
+        }
+    }
+
+    public Polygon(ArrayList<Integer> vertexIndices, ArrayList<Integer> textureVertexIndices, ArrayList<Integer> normalIndices) {
         this.vertexIndices = vertexIndices;
-    }
-
-    public void setTextureVertexIndices(ArrayList<Integer> textureVertexIndices) {
-        assert textureVertexIndices.size() >= 3;
         this.textureVertexIndices = textureVertexIndices;
-    }
-
-    public void setNormalIndices(ArrayList<Integer> normalIndices) {
-        assert normalIndices.size() >= 3;
         this.normalIndices = normalIndices;
     }
 
@@ -51,5 +57,12 @@ public class Polygon {
 
     public boolean areNormalsSet() {
         return vertexIndices.size() <= normalIndices.size();
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner sj = new StringJoiner(" ");
+        sj.add(vertexIndices.toString());
+        return sj.toString();
     }
 }

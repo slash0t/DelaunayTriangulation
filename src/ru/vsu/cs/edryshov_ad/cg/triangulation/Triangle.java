@@ -54,6 +54,10 @@ public class Triangle implements Comparable<Triangle>{
         return c;
     }
 
+    public List<Vertex> getPoints() {
+        return List.of(a, b, c);
+    }
+
     public boolean containsNotIndexedVertices() {
         return a.getIndex() == -1 || b.getIndex() == -1 || c.getIndex() == -1;
     }
