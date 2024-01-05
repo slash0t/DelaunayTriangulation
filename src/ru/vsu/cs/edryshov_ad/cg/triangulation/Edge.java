@@ -5,7 +5,7 @@ public class Edge implements Comparable<Edge> {
     private final Vertex b;
 
     public Edge(Vertex a, Vertex b) {
-        if (a.compareTo(b) > 0) {
+        if (a.compareTo(b) <= 0) {
             this.a = a;
             this.b = b;
         } else {

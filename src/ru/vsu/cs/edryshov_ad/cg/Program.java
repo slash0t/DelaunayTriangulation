@@ -1,30 +1,25 @@
 package ru.vsu.cs.edryshov_ad.cg;
 
-import ru.vsu.cs.edryshov_ad.cg.triangulation.DelaunayTriangulation;
-import ru.vsu.cs.edryshov_ad.cg.triangulation.Triangle;
-import ru.vsu.cs.edryshov_ad.cg.triangulation.Vertex;
+import ru.vsu.cs.edryshov_ad.cg.model.Model;
+import ru.vsu.cs.edryshov_ad.cg.model.TriangulatedModel;
+import ru.vsu.cs.edryshov_ad.cg.objreader.ObjReader;
+import ru.vsu.cs.edryshov_ad.cg.objwriter.ObjWriter;
 
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 public class Program {
     public static void main(String[] args) {
-        List<Vertex> vertices = List.of(
-                new Vertex(0, 0, 0),
-                new Vertex(1, 0, 1),
-                new Vertex(1, 1, 2),
-                new Vertex(0, 1, 3)
-//                new Vertex(0, 0, 0),
-//                new Vertex(2, 0, 1),
-//                new Vertex(2.5f, 2.5f, 2),
-//                new Vertex(1, 5, 3),
-//                new Vertex(-0.5f, 2.5f, 4)
-        );
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        String output = scanner.next();
 
-        Set<Triangle> triangulated = DelaunayTriangulation.bowyerWatsonAlgorithm(vertices);
-
-        for (Triangle triangle : triangulated) {
-            System.out.println(triangle);
+        try {
+            Model startModel = ObjReader.read(new File(input));
+            Model newModel = TriangulatedModel.triangulate(startModel);
+            ObjWriter.write(output, newModel);
+        } catch (RuntimeException ex) {
+            System.out.println("Возникла ошибка: " + ex);
         }
     }
 }

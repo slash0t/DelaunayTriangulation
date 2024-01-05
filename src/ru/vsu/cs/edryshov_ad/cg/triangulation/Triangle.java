@@ -3,6 +3,7 @@ package ru.vsu.cs.edryshov_ad.cg.triangulation;
 import ru.vsu.cs.edryshov_ad.cg.math.MathConstants;
 import ru.vsu.cs.edryshov_ad.cg.math.Vector2f;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Triangle implements Comparable<Triangle>{
@@ -15,9 +16,12 @@ public class Triangle implements Comparable<Triangle>{
     private final float circumCircleRadius;
 
     public Triangle(Vertex a, Vertex b, Vertex c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
+        Vertex[] vertices = new Vertex[] {a, b, c};
+        Arrays.sort(vertices);
+
+        this.a = vertices[0];
+        this.b = vertices[1];
+        this.c = vertices[2];
 
         float denominator = 2 * (
                 a.getX() * (b.getY() - c.getY()) +

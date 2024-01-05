@@ -4,6 +4,7 @@ import ru.vsu.cs.edryshov_ad.cg.math.Vector2f;
 import ru.vsu.cs.edryshov_ad.cg.math.Vector3f;
 import ru.vsu.cs.edryshov_ad.cg.model.Model;
 import ru.vsu.cs.edryshov_ad.cg.model.Polygon;
+import ru.vsu.cs.edryshov_ad.cg.model.TrianglePolygon;
 
 import java.util.*;
 
@@ -106,35 +107,22 @@ public class DelaunayTriangulation {
         return pointsOnPlane;
     }
 
-    public static Model getTriangulatedModel(Model model) {
-        ArrayList<Vector3f> vertices = new ArrayList<>(model.getVertexCount());
-        for (int i = 0; i < model.getVertexCount(); i++) {
-            vertices.add(i, model.getVertex(i));
-        }
+    public static LinkedList<TrianglePolygon> getTriangulation(Model model) {
+        LinkedList<TrianglePolygon> polygons = new LinkedList<>();
+        for (Polygon polygon : model.getPolygons()) {
+            if (polygon.getSize() < 3) {
+                continue;
+            }
 
-        ArrayList<Vector2f> textureVertices = new ArrayList<>(model.getTextureVertexCount());
-        for (int i = 0; i < model.getTextureVertexCount(); i++) {
-            textureVertices.add(i, model.getTextureVertex(i));
-        }
-
-        ArrayList<Vector3f> normals = new ArrayList<>(model.getNormalCount());
-        for (int i = 0; i < model.getNormalCount(); i++) {
-            normals.add(i, model.getNormal(i));
-        }
-
-        LinkedList<Polygon> polygons = new LinkedList<>();
-        for (Iterator<Polygon> iterator = model.getPolygonIterator(); iterator.hasNext(); ) {
-            Polygon polygon = iterator.next();
-
-            if (polygon.getSize() < 4) {
-                Polygon copy = new Polygon(polygon);
+            if (polygon.getSize() == 3) {
+                TrianglePolygon copy = new TrianglePolygon(polygon);
                 polygons.add(copy);
             }
 
             LinkedList<Vector3f> pointsInSpace = new LinkedList<>();
             for (int i = 0; i < polygon.getSize(); i++) {
                 int vertexIndex = polygon.getVertexIndex(i);
-                pointsInSpace.add(vertices.get(vertexIndex));
+                pointsInSpace.add(model.getVertex(vertexIndex));
             }
 
             List<Vector2f> pointsOnPlane = getPointProjectedOnPlane(pointsInSpace);
@@ -160,21 +148,21 @@ public class DelaunayTriangulation {
                     newVertices.add(vertexIndex);
 
                     if (polygon.areTexturesSet()) {
-                        int vertexTextureIndex = polygon.getVertexIndex(index);
-                        newVertices.add(vertexTextureIndex);
+                        int vertexTextureIndex = polygon.getTextureVertexIndex(index);
+                        newTextureVertices.add(vertexTextureIndex);
                     }
 
                     if (polygon.areNormalsSet()) {
-                        int normalIndex = polygon.getVertexIndex(index);
-                        newVertices.add(normalIndex);
+                        int normalIndex = polygon.getNormalIndex(index);
+                        newNormals.add(normalIndex);
                     }
                 }
 
-                Polygon newPolygon = new Polygon(newVertices, newTextureVertices, newNormals);
+                TrianglePolygon newPolygon = new TrianglePolygon(newVertices, newTextureVertices, newNormals);
                 polygons.add(newPolygon);
             }
         }
 
-        return new Model(vertices, textureVertices, normals, polygons);
+        return polygons;
     }
 }

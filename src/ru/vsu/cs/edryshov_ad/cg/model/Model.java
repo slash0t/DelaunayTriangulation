@@ -7,11 +7,13 @@ import java.util.*;
 
 public class Model {
 
-    private ArrayList<Vector3f> vertices;
-    private ArrayList<Vector2f> textureVertices;
-    private ArrayList<Vector3f> normals;
+    private final ArrayList<Vector3f> vertices;
+    private final ArrayList<Vector2f> textureVertices;
+    private final ArrayList<Vector3f> normals;
 
-    private LinkedList<Polygon> polygons;
+    private final LinkedList<Polygon> polygons;
+
+    private final List<Group> groups = new ArrayList<>();
 
     public Model(
             ArrayList<Vector3f> vertices, ArrayList<Vector2f> textureVertices,
@@ -42,10 +44,6 @@ public class Model {
         return normals.get(index);
     }
 
-    public Iterator<Polygon> getPolygonIterator() {
-        return polygons.iterator();
-    }
-
     public int getVertexCount() {
         return vertices.size();
     }
@@ -56,5 +54,49 @@ public class Model {
 
     public int getNormalCount() {
         return normals.size();
+    }
+
+    public void addVertex(Vector3f vertex) {
+        vertices.add(vertex);
+    }
+
+    public void addTextureVertex(Vector2f textureVertex) {
+        textureVertices.add(textureVertex);
+    }
+
+    public void addNormal(Vector3f normal) {
+        normals.add(normal);
+    }
+
+    public void addPolygon(Polygon polygon) {
+        polygons.add(polygon);
+    }
+
+    public void addGroup(Group group) {
+        groups.add(group);
+    }
+
+    public Polygon getFirstPolygon() {
+        return polygons.getFirst();
+    }
+
+    public ArrayList<Vector3f> getVertices() {
+        return new ArrayList<>(vertices);
+    }
+
+    public ArrayList<Vector2f> getTextureVertices() {
+        return new ArrayList<>(textureVertices);
+    }
+
+    public ArrayList<Vector3f> getNormals() {
+        return new ArrayList<>(normals);
+    }
+
+    public LinkedList<Polygon> getPolygons() {
+        return new LinkedList<>(polygons);
+    }
+
+    public LinkedList<Group> getGroups() {
+        return new LinkedList<>(groups);
     }
 }

@@ -52,4 +52,8 @@ public class Vector3f {
                 getZ() - vector.getZ()
         );
     }
+
+    public float dot(Vector3f vector) {
+        return x * vector.getX() + y * vector.getY() + z * vector.getZ();
+    }
 }
